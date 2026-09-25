@@ -67,6 +67,30 @@ This gives us a great thing to showcase.
 - Tailwind + React + Typescript for frontend
 
 - (Hardcode everything in the backend, keep it simple, make it look flashy)
+
+<database_schema>
+data Organization:
+    id: PK
+    users: User[]
+    machines: Machines[]
+    name: String
+
+data Ticket:
+    id: PK
+    machinePK: PK-reference
+    date: DATE
+
+data Machine:
+    userSuppliedId: PK  (should reference the name of it in the factory)
+    tickets: Tickets[]
+
+data User:
+    id: PK
+    ... blah blah, email etc
+    name: String
+<database_schema>
+
+
 </tech_stack>
 
 
