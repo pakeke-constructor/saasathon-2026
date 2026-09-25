@@ -8,12 +8,14 @@
 Vercel, supabase, railway set up.
 NextJS for backend.
 React + Tailwind for UI
+(basically managing all the accounts and infrastructure)
 
 
 
 ### Oli:
 3d modelling.
-Database schema?
+Database schema.
+Query page
 
 
 

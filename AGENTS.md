@@ -65,8 +65,36 @@ This gives us a great thing to showcase.
 - Supabase for auth + DB
 - Nextjs + Vercel
 - Tailwind + React + Typescript for frontend
+- Railway for deployment
 
-- (Hardcode everything in the backend, keep it simple, make it look flashy)
+(Hardcode everything in the backend, keep it simple, make it look flashy)
+
+<database_schema>
+data Organization:
+    id: PK
+    users: User[]
+    machines: Machines[]
+    name: String
+
+data Ticket:
+    id: PK
+    kind: REPAIR | INFO | EVENT
+    // the `kind` represents what the ticket was for. Repair = something broke, was fixed. info = random information placed about the machine. When user creates a machine, they are prompted to put in starter-info. An event is something that happens: eg worker notices that the green-light started beeping funny.
+    machinePK: PK-reference
+    date: DATE
+    string: user-description, describes issue
+
+data Machine:
+    userSuppliedId: PK  (should reference the name of it in the factory)
+    tickets: Tickets[]
+
+data User:
+    id: PK
+    // ... blah blah, email etc
+    name: String
+<database_schema>
+
+
 </tech_stack>
 
 
