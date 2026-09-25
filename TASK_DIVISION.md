@@ -14,7 +14,7 @@ React + Tailwind for UI
 
 ### Oli:
 3d modelling.
-Database schema.
+~~Database schema.~~
 Query page
 
 
@@ -22,5 +22,11 @@ Query page
 ### Nova:
 Landing page + Login + Register
 
+
+
+
+### Ben:
+Pitch.
+Tell story, use claude design
 
 
