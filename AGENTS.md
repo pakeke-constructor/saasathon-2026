@@ -98,6 +98,22 @@ data User:
 </tech_stack>
 
 
+<frontend>
+frontend pages:
+
+<landing_page>
+Landing page. Explains problem, solution, ROI.
+Navbar at the top: Pricing, FAQ, 
+</landing_page>
+
+<login_register_page>
+Basic login + register page.
+(Include oauth + signup with google)
+</login_register_page>
+
+TODO: other pages here.
+
+</frontend>
 
 <frontend_style>
 # FRONTEND STYLE: "INDUSTRIAL CONTROL ROOM" (non-negotiable, whole product)
