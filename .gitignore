@@ -21,6 +21,9 @@ pyrightconfig.json
 # testing
 /coverage
 
+# agent artifacts (dev server log, screenshots)
+/.agent/
+
 # next.js
 /.next/
 /out/

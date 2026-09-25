@@ -179,3 +179,53 @@ Rules:
 - No stock illustrations or cartoon mascots. Visuals = UI mockups, 3D machine renders, data, grids.
 - No unstyled default components (raw `<select>`, browser-default checkboxes). If you use shadcn/ui, re-skin to these tokens.
 </frontend_style>
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
+
+<agent_workflow>
+# AGENT WORKFLOW: SEE THE PAGE, FIX IT, SEE IT AGAIN
+Work autonomously. Do not ask the human to start the server, log in, or take screenshots. You can do all of it yourself.
+
+## 1. Run the app
+- `npm run dev:bg`: makes sure `next dev` is running on http://localhost:3000. If a server is already up, it reuses it. Otherwise it starts one detached and waits until it's ready. Safe to run anytime.
+- `npm run dev:status` / `npm run dev:logs` (last 80 lines of `.agent/dev.log`) / `npm run dev:stop`.
+- Do NOT run plain `npm run dev` in the foreground. It blocks forever. Next dev hot-reloads, so there is no need to restart after edits. Restart only after changing `.env*` or `next.config.ts`.
+- If a page 500s or looks broken, read `npm run dev:logs` first. Server errors show up there.
+
+## 2. Look at any page (already logged in)
+- `npm run shot -- /query`: headless Chromium, 1440x900, saves `.agent/shots/query.png`, then prints the HTTP status, any redirect, console errors/warnings, uncaught errors and failed requests. It auto-starts the dev server if needed.
+- Then **open the PNG with the Read tool** to actually see it. Always look; don't assume a change rendered correctly.
+- Flags (they apply to every route in the call):
+  - `--full`: full-page capture. `--mobile`: 390x844. `--scroll 1200`: scroll first.
+  - `--wait 3000`: extra settle time for animations, streaming text or 3D. The default is 1200ms.
+  - `--selector "main"`: capture one element.
+  - `--fill <selector> <text>` / `--click <selector>`: interact before capture (they run in order). Selectors are Playwright selectors (`textarea`, `text=Run diagnosis`, `role=button[name=Save]`).
+  - `--logged-out`: view as an anonymous visitor (for landing, login and register).
+- Several routes at once: `npm run shot -- / /query /machines`.
+- Example: `npm run shot -- /query --fill textarea "ERR 0x4F2 spindle overheat" --click "text=Run diagnosis" --wait 4000`
+- Exit code 2 means the page logged errors. Treat them as bugs to fix.
+- For deeper manual poking (hovering, multi-step flows, GIFs) the Claude-in-Chrome tools also work against http://localhost:3000. The dev auth bypass applies there too.
+
+## 3. Auth in dev: you are always logged in
+- In `next dev`, every request is authenticated as the demo user `DEMO_USER` (Dana Reyes, Kestrel Precision Machining) from `src/lib/auth/session.ts`. No login form, no Supabase needed. This never applies to production builds.
+- **Every auth check must go through `getSessionUser()` / `requireUser()` from `@/lib/auth/session`.** Never call `supabase.auth.getUser()` directly in pages, layouts or proxy code, or the bypass breaks and agents can't see logged-in pages.
+- Opt out: cookie `dev-auth=off` (that's what `--logged-out` sets), or `DEV_AUTH_BYPASS=0` in `.env.local` to test real Supabase login.
+
+## 4. Iterate fast
+Loop: edit → `npm run shot -- <route>` → Read the PNG → fix → repeat. Also:
+- Check desktop AND `--mobile` before calling UI work done.
+- Compare every screenshot against <frontend_style>: tokens, mono usage, orange scarcity, borders over shadows.
+- `npm run check` (tsc + eslint) before finishing. It's faster than `npm run build`.
+- Screenshots and logs live in `.agent/` (gitignored). Overwrite freely.
+- Next.js 16: middleware is now `src/proxy.ts`. When unsure about an API, read the docs in `node_modules/next/dist/docs/`, not memory.
+- First time on a fresh machine: `npm install && npx playwright install chromium`.
+</agent_workflow>
