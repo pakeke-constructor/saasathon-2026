@@ -54,8 +54,9 @@ We do NOT want to build a complete product. We want to build something that can 
 - Have a big whitelist of machine-types. Encourage users to select from the whitelist instead of naming their own.
 - Have a way to add/register new machines with the company.
 
-IMPORTANT: Choose a couple of manufacturing machines (CNC machines?) that have issues with them.
-- Scrape data 
+IMPORTANT: Choose a couple of manufacturing machines (CNC machines?) that have known issues with them.
+To get our "global information" about these machines, we should just find documentation in chinese, (something that's hard to access or generally inaccessible.)
+This gives us a great thing to showcase.
 </pragmatic_goal_for_hackathon>
 
 </product>
@@ -67,3 +68,4 @@ IMPORTANT: Choose a couple of manufacturing machines (CNC machines?) that have i
 
 - (Hardcode everything in the backend, keep it simple, make it look flashy)
 </tech_stack>
+
