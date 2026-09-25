@@ -69,3 +69,85 @@ This gives us a great thing to showcase.
 - (Hardcode everything in the backend, keep it simple, make it look flashy)
 </tech_stack>
 
+
+
+<frontend_style>
+# FRONTEND STYLE: "INDUSTRIAL CONTROL ROOM"
+This is the single, non-negotiable visual style for the whole product (landing page, auth, and app).
+Do not invent a new style. Do not "improve" it into a generic SaaS look. If unsure, re-read this section.
+
+The vibe: the HMI screen of a very expensive machine, designed by Linear/Vercel.
+Dark, precise, technical, calm, with ONE hot accent colour: safety orange. Think machine-shop signage, hazard tape, CNC readouts, oscilloscopes.
+
+## Theme
+- DARK MODE ONLY. No light mode. No theme toggle.
+- Page background is near-black graphite, never pure #000, never blue-tinted navy.
+
+## Colour tokens (define once in `globals.css` via Tailwind `@theme`, use the token names everywhere)
+| token            | hex       | use |
+|------------------|-----------|-----|
+| `bg`             | `#0A0A0B` | page background |
+| `surface`        | `#111113` | cards, panels, sidebar |
+| `surface-2`      | `#18181B` | hover / raised / inputs |
+| `line`           | `#26262B` | ALL borders and dividers (1px) |
+| `line-strong`    | `#3A3A40` | focused / hovered borders |
+| `fg`             | `#EDEDEF` | primary text |
+| `fg-muted`       | `#8A8A93` | secondary text, labels |
+| `fg-dim`         | `#55555C` | placeholders, disabled, grid lines |
+| `accent`         | `#FF6B1A` | THE brand colour: primary buttons, active states, key highlights |
+| `accent-dim`     | `#FF6B1A1A` | accent backgrounds (10% alpha) |
+| `ok`             | `#3DDC97` | machine RUNNING / resolved |
+| `warn`           | `#FFC53D` | machine WARNING / degraded |
+| `fault`          | `#FF4D4F` | machine DOWN / error |
+| `info`           | `#5B9DFF` | global-knowledge / AI-sourced info ONLY |
+
+Rules:
+- Orange is precious. Max ~1 primary orange element per screen region. Everything else is greyscale.
+- Status colours (`ok`/`warn`/`fault`) are ONLY for machine/system status. Never decorative.
+- No purple. No gradients-of-many-colours. No rainbow. No pastel.
+- The only gradients allowed: a subtle orange radial glow behind hero content, and `fg` → `fg-muted` on large headline text.
+
+## Typography
+- Sans: **Geist Sans** (`next/font` / `geist` package). Mono: **Geist Mono**.
+- Mono is used heavily and deliberately: machine IDs, serial numbers, error codes, timestamps, stats, costs, section eyebrows, keyboard hints, table data. e.g. `CNC-01`, `ERR 0x4F2`, `$6,000/hr`.
+- Headlines: sans, `font-semibold`, tight tracking (`tracking-tight` / `-0.02em`), large. Hero ~`text-6xl md:text-7xl`.
+- Eyebrows / section labels: mono, `text-xs uppercase tracking-[0.15em] text-fg-muted`, often prefixed with a marker like `// 01` or `[ DIAGNOSE ]`.
+- Body: `text-sm` or `text-base`, `text-fg-muted`, max ~65ch. Numbers use `tabular-nums`.
+
+## Shape & layout
+- Borders over shadows. Every card/panel is `bg-surface border border-line`. No drop shadows except the orange glow on the primary CTA.
+- Radius: small and crisp. `rounded-md` (6px) for buttons/inputs, `rounded-lg` (8px) for cards. NEVER `rounded-2xl`/`rounded-full` pills on containers (only on status dots and avatars).
+- Background texture: faint 1px grid (`line` colour at low opacity, ~32px cells), masked to fade out at edges. Use on hero and empty states.
+- Corner "registration marks" / crop marks on hero cards and feature panels are encouraged (small L-shaped 1px lines at corners). This is our signature detail.
+- Spacing is generous: sections `py-24`+, content max width `max-w-6xl`. Dense data inside panels, lots of air outside them.
+- App layout: left sidebar (`surface`, 240px) + top bar with a mono breadcrumb + main content. Command palette (⌘K) feel.
+
+## Components
+- **Primary button**: `bg-accent text-black font-medium rounded-md`, subtle orange glow on hover. Black text on orange, not white.
+- **Secondary button**: `bg-surface-2 border border-line text-fg`, hover `border-line-strong`.
+- **Ghost button**: text only, `text-fg-muted hover:text-fg`.
+- **Inputs**: `bg-surface-2 border-line`, focus ring = 1px `accent` border + `accent-dim` ring. Mono for any ID/serial input.
+- **Status pill**: small dot + mono uppercase label, e.g. `● RUNNING` (`ok`), `● FAULT` (`fault`, dot pulses).
+- **Machine card**: mono machine ID top-left, status pill top-right, model name, family, last-incident line in `fg-muted`.
+- **AI answer**: streams in token-by-token (fake it if needed) in a panel with a mono header like `SOURCE: GLOBAL KB · 3 docs · translated from 中文`. Sources shown as citation chips. Global-KB content tagged `info` blue, company/local notes tagged `accent` orange.
+- **Kbd hints**: `<kbd>` styled mono, `border-line bg-surface-2 text-xs`.
+- Icons: **lucide-react** only, `size-4`, `stroke-[1.5]`. No emoji in UI.
+
+## Motion ("flashy" lives here — tasteful, fast, purposeful)
+- Use **framer-motion** (`motion`). Durations 150–400ms, ease `[0.16, 1, 0.3, 1]`. No bouncy springs.
+- Page/section entrance: fade + 8px rise, staggered children (40–60ms).
+- Numbers count up (downtime cost, hours saved). Live-feeling things tick: timestamps, a pulsing status dot, a scanning line across the hero.
+- Typewriter/streaming text for AI output. Skeletons are 1px-bordered shimmer blocks, not grey blobs.
+- Hover: border brightens to `line-strong`, maybe a 1px accent top-edge. No scale-up zooms on cards.
+
+## Copy tone
+- Terse, confident, technical. Short sentences. Operators, not marketers.
+- Use real-looking specifics everywhere: machine models, error codes, dollar figures, timestamps. Never "Lorem ipsum", never "Feature 1".
+
+## DO NOT
+- No light backgrounds, white cards, or default Tailwind blue/indigo buttons.
+- No glassmorphism blur soup, no neon cyberpunk, no purple AI gradients, no sparkle ✨ icons.
+- No big soft shadows, no pill-shaped cards, no rounded-3xl.
+- No stock illustrations or cartoon mascots. Visuals = UI mockups, 3D machine renders, data, grids.
+- No unstyled default components (raw `<select>`, browser-default checkboxes). If you use shadcn/ui, re-skin to these tokens.
+</frontend_style>
