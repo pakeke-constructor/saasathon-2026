@@ -111,7 +111,25 @@ Basic login + register page.
 (Include oauth + signup with google)
 </login_register_page>
 
-TODO: other pages here.
+<MAIN_PAGES>
+All main-pages have a sidebar on the right, visible at all times.
+Sidebar tabs:
+- machine_fix
+- add-ticket tab
+- add-machine tab
+- organization_tab
+
+<machine_fix>
+Vertical split down the middle, page divided into two halves.
+
+If the 
+</machine_fix>
+
+<machine_fix>
+
+</machine_fix>
+
+</MAIN_PAGES>
 
 </frontend>
 
