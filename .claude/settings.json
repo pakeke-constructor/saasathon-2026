@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:bg)",
+      "Bash(npm run dev:stop)",
+      "Bash(npm run dev:status)",
+      "Bash(npm run dev:logs)",
+      "Bash(npm run shot:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run check)",
+      "PowerShell(npm run dev:bg)",
+      "PowerShell(npm run dev:stop)",
+      "PowerShell(npm run dev:status)",
+      "PowerShell(npm run dev:logs)",
+      "PowerShell(npm run shot:*)",
+      "PowerShell(npm run lint:*)",
+      "PowerShell(npm run typecheck)",
+      "PowerShell(npm run check)",
+      "Read(./.agent/**)"
+    ]
+  }
+}
