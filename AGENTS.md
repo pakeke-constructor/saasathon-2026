@@ -92,8 +92,9 @@ data User:
     id: PK
     // ... blah blah, email etc
     name: String
-<database_schema>
 
+[Note: Feel free to update the database schema at any moment. It is highly adaptive. If you need something; just add it. Don't let this design get in your way.]
+<database_schema>
 
 </tech_stack>
 
@@ -119,15 +120,47 @@ Sidebar tabs:
 - add-machine tab
 - organization_tab
 
-<machine_fix>
+<machine>
+Machine-fix page.
+This is where users go if they want to fix an issue with a machine.
+
+`url.com/machine/<machine_pk>`
+
 Vertical split down the middle, page divided into two halves.
 
+Top-left: has a small floating dropdown UI where you can select the machine type.
+Contains a whitelist of all machines within the org.
+
+Left-side: Has a 3d-model pane showing the machine.
 If the 
-</machine_fix>
+</machine>
 
-<machine_fix>
+<org>
+Everything to do with managing an organization:
 
-</machine_fix>
+`url.com/machine/<org_pk>`
+
+Adding / removing members by id.
+</org>
+
+<ticket>
+Ticket page:
+
+Filing docs for when something goes wrong with a machine,
+OR, filing information about 
+</ticket>
+
+<add_machine>
+Add machine page:
+
+This is for when teams want to add a new machine to their organization.
+If the users have no machines at all, this page should open by default.
+
+Make sure to select:
+- type of machine
+- unique machine id (company internal identifier)
+- and have a box at the bottom that tells a bunch of information about the machine, any recent events, etc.
+</add_machine>
 
 </MAIN_PAGES>
 
