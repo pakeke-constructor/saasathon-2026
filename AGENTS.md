@@ -98,84 +98,95 @@ data User:
 </tech_stack>
 
 
+<frontend>
+frontend pages:
+
+<landing_page>
+Landing page. Explains problem, solution, ROI.
+Navbar at the top: Pricing, FAQ, 
+</landing_page>
+
+<login_register_page>
+Basic login + register page.
+(Include oauth + signup with google)
+</login_register_page>
+
+TODO: other pages here.
+
+</frontend>
 
 <frontend_style>
-# FRONTEND STYLE: "INDUSTRIAL CONTROL ROOM"
-This is the single, non-negotiable visual style for the whole product (landing page, auth, and app).
-Do not invent a new style. Do not "improve" it into a generic SaaS look. If unsure, re-read this section.
+# FRONTEND STYLE: "INDUSTRIAL CONTROL ROOM" (non-negotiable, whole product)
+Vibe: the HMI screen of an expensive machine, designed by Linear/Vercel. Dark, precise, calm, ONE hot accent: safety orange. Never drift into generic SaaS.
 
-The vibe: the HMI screen of a very expensive machine, designed by Linear/Vercel.
-Dark, precise, technical, calm, with ONE hot accent colour: safety orange. Think machine-shop signage, hazard tape, CNC readouts, oscilloscopes.
+## Colour (tokens already in `src/app/globals.css` `@theme`; always use token names, never raw hex)
+- Greys: `bg` page · `surface` cards/sidebar · `surface-2` inputs/hover · `line` ALL 1px borders · `line-strong` hover/focus border · `fg` / `fg-muted` / `fg-dim` text.
+- `accent` (orange) + `accent-dim` (10% bg): primary CTA, active state. Precious: ~1 per screen region, rest is greyscale.
+- `ok` / `warn` / `fault`: machine status ONLY, never decorative.
+- `info` (blue): global-KB / AI-sourced content ONLY. Company/local notes use `accent`.
+- Dark mode only. Gradients only: orange radial glow behind hero, `fg`→`fg-muted` on big headlines. No purple, rainbow, pastel.
 
-## Theme
-- DARK MODE ONLY. No light mode. No theme toggle.
-- Page background is near-black graphite, never pure #000, never blue-tinted navy.
-
-## Colour tokens (define once in `globals.css` via Tailwind `@theme`, use the token names everywhere)
-| token            | hex       | use |
-|------------------|-----------|-----|
-| `bg`             | `#0A0A0B` | page background |
-| `surface`        | `#111113` | cards, panels, sidebar |
-| `surface-2`      | `#18181B` | hover / raised / inputs |
-| `line`           | `#26262B` | ALL borders and dividers (1px) |
-| `line-strong`    | `#3A3A40` | focused / hovered borders |
-| `fg`             | `#EDEDEF` | primary text |
-| `fg-muted`       | `#8A8A93` | secondary text, labels |
-| `fg-dim`         | `#55555C` | placeholders, disabled, grid lines |
-| `accent`         | `#FF6B1A` | THE brand colour: primary buttons, active states, key highlights |
-| `accent-dim`     | `#FF6B1A1A` | accent backgrounds (10% alpha) |
-| `ok`             | `#3DDC97` | machine RUNNING / resolved |
-| `warn`           | `#FFC53D` | machine WARNING / degraded |
-| `fault`          | `#FF4D4F` | machine DOWN / error |
-| `info`           | `#5B9DFF` | global-knowledge / AI-sourced info ONLY |
-
-Rules:
-- Orange is precious. Max ~1 primary orange element per screen region. Everything else is greyscale.
-- Status colours (`ok`/`warn`/`fault`) are ONLY for machine/system status. Never decorative.
-- No purple. No gradients-of-many-colours. No rainbow. No pastel.
-- The only gradients allowed: a subtle orange radial glow behind hero content, and `fg` → `fg-muted` on large headline text.
-
-## Typography
-- Sans: **Geist Sans** (`next/font` / `geist` package). Mono: **Geist Mono**.
-- Mono is used heavily and deliberately: machine IDs, serial numbers, error codes, timestamps, stats, costs, section eyebrows, keyboard hints, table data. e.g. `CNC-01`, `ERR 0x4F2`, `$6,000/hr`.
-- Headlines: sans, `font-semibold`, tight tracking (`tracking-tight` / `-0.02em`), large. Hero ~`text-6xl md:text-7xl`.
-- Eyebrows / section labels: mono, `text-xs uppercase tracking-[0.15em] text-fg-muted`, often prefixed with a marker like `// 01` or `[ DIAGNOSE ]`.
-- Body: `text-sm` or `text-base`, `text-fg-muted`, max ~65ch. Numbers use `tabular-nums`.
+## Type
+- Geist Sans + Geist Mono. Mono heavily: machine IDs, error codes, serials, timestamps, costs, stats, table data (`CNC-01`, `ERR 0x4F2`, `$6,000/hr`), `tabular-nums`.
+- Headlines: `font-semibold tracking-tight`, hero `text-6xl md:text-7xl`.
+- Eyebrows: mono `text-xs uppercase tracking-[0.15em] text-fg-muted`, e.g. `// 01`, `[ DIAGNOSE ]`.
+- Body: `text-sm`/`text-base` `text-fg-muted`, max ~65ch.
 
 ## Shape & layout
-- Borders over shadows. Every card/panel is `bg-surface border border-line`. No drop shadows except the orange glow on the primary CTA.
-- Radius: small and crisp. `rounded-md` (6px) for buttons/inputs, `rounded-lg` (8px) for cards. NEVER `rounded-2xl`/`rounded-full` pills on containers (only on status dots and avatars).
-- Background texture: faint 1px grid (`line` colour at low opacity, ~32px cells), masked to fade out at edges. Use on hero and empty states.
-- Corner "registration marks" / crop marks on hero cards and feature panels are encouraged (small L-shaped 1px lines at corners). This is our signature detail.
-- Spacing is generous: sections `py-24`+, content max width `max-w-6xl`. Dense data inside panels, lots of air outside them.
-- App layout: left sidebar (`surface`, 240px) + top bar with a mono breadcrumb + main content. Command palette (⌘K) feel.
+- Cards: `bg-surface border border-line rounded-lg`. Buttons/inputs `rounded-md`. Borders, not shadows (only exception: orange glow on primary CTA). No `rounded-2xl+` or pill containers.
+- Signature details: faint 32px grid background fading at edges (hero, empty states); L-shaped corner crop marks on hero/feature panels.
+- Generous space: sections `py-24`+, `max-w-6xl`. Dense data inside panels, air outside.
+- App shell: 240px `surface` sidebar + top bar with mono breadcrumb. ⌘K palette feel.
 
 ## Components
-- **Primary button**: `bg-accent text-black font-medium rounded-md`, subtle orange glow on hover. Black text on orange, not white.
-- **Secondary button**: `bg-surface-2 border border-line text-fg`, hover `border-line-strong`.
-- **Ghost button**: text only, `text-fg-muted hover:text-fg`.
-- **Inputs**: `bg-surface-2 border-line`, focus ring = 1px `accent` border + `accent-dim` ring. Mono for any ID/serial input.
-- **Status pill**: small dot + mono uppercase label, e.g. `● RUNNING` (`ok`), `● FAULT` (`fault`, dot pulses).
-- **Machine card**: mono machine ID top-left, status pill top-right, model name, family, last-incident line in `fg-muted`.
-- **AI answer**: streams in token-by-token (fake it if needed) in a panel with a mono header like `SOURCE: GLOBAL KB · 3 docs · translated from 中文`. Sources shown as citation chips. Global-KB content tagged `info` blue, company/local notes tagged `accent` orange.
-- **Kbd hints**: `<kbd>` styled mono, `border-line bg-surface-2 text-xs`.
-- Icons: **lucide-react** only, `size-4`, `stroke-[1.5]`. No emoji in UI.
+- Primary button: `bg-accent text-black font-medium`, glow on hover. Secondary: `bg-surface-2 border-line`, hover `border-line-strong`. Ghost: `text-fg-muted hover:text-fg`.
+- Inputs: `bg-surface-2 border-line`, focus = `accent` border + `accent-dim` ring.
+- Status pill: dot + mono uppercase label (`● RUNNING`); fault dot pulses.
+- AI answer: streams token-by-token (fake it) under a mono header like `SOURCE: GLOBAL KB · 3 docs · translated from 中文`, with citation chips.
+- Icons: lucide-react only, `size-4 stroke-[1.5]`. No emoji. Re-skin anything default (selects, checkboxes, shadcn).
 
-## Motion ("flashy" lives here — tasteful, fast, purposeful)
-- Use **framer-motion** (`motion`). Durations 150–400ms, ease `[0.16, 1, 0.3, 1]`. No bouncy springs.
-- Page/section entrance: fade + 8px rise, staggered children (40–60ms).
-- Numbers count up (downtime cost, hours saved). Live-feeling things tick: timestamps, a pulsing status dot, a scanning line across the hero.
-- Typewriter/streaming text for AI output. Skeletons are 1px-bordered shimmer blocks, not grey blobs.
-- Hover: border brightens to `line-strong`, maybe a 1px accent top-edge. No scale-up zooms on cards.
+## Motion (where "flashy" lives)
+- framer-motion, 150–400ms, ease `[0.16, 1, 0.3, 1]`, no bouncy springs.
+- Entrances: fade + 8px rise, 40–60ms stagger. Numbers count up. Live things tick (timestamps, pulsing dots, hero scan line).
+- Hover: border → `line-strong`, no scale-up. Skeletons: 1px-bordered shimmer.
 
-## Copy tone
-- Terse, confident, technical. Short sentences. Operators, not marketers.
-- Use real-looking specifics everywhere: machine models, error codes, dollar figures, timestamps. Never "Lorem ipsum", never "Feature 1".
+## Copy
+Terse, technical, operator voice. Real-looking specifics everywhere (models, error codes, $ figures, timestamps). Never lorem ipsum.
 
 ## DO NOT
-- No light backgrounds, white cards, or default Tailwind blue/indigo buttons.
-- No glassmorphism blur soup, no neon cyberpunk, no purple AI gradients, no sparkle ✨ icons.
-- No big soft shadows, no pill-shaped cards, no rounded-3xl.
-- No stock illustrations or cartoon mascots. Visuals = UI mockups, 3D machine renders, data, grids.
-- No unstyled default components (raw `<select>`, browser-default checkboxes). If you use shadcn/ui, re-skin to these tokens.
+Light backgrounds, default blue/indigo buttons, glassmorphism, neon cyberpunk, purple AI gradients, sparkle icons, soft shadows, stock illustrations/mascots.
 </frontend_style>
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
+
+<agent_workflow>
+# AGENT WORKFLOW: SEE THE PAGE, FIX IT, SEE IT AGAIN
+Work autonomously. Never ask the human to start the server, log in, or take screenshots.
+
+## Loop: edit → `npm run shot -- <route>` → Read the PNG → fix → repeat
+- `npm run dev:bg`: ensure dev server on :3000 (idempotent). Also `dev:status` / `dev:logs` / `dev:stop`. Never run plain `npm run dev` (blocks). Hot-reloads; restart only after `.env*` / `next.config.ts` changes. Page broken/500? Read `dev:logs` first.
+- `npm run shot -- /query [/other ...]`: 1440x900 screenshot to `.agent/shots/<route>.png`, prints status + console/network errors. Exit code 2 = page logged errors; fix them. **Always Read the PNG**; never assume it rendered.
+  - Flags: `--mobile`, `--full`, `--scroll 1200`, `--wait 3000` (animations/streaming/3D), `--selector main`, `--logged-out`, `--fill <sel> <text>`, `--click <sel>` (Playwright selectors, run in order).
+  - e.g. `npm run shot -- /query --fill textarea "ERR 0x4F2" --click "text=Run diagnosis" --wait 4000`
+- Claude-in-Chrome also works against localhost:3000 for hover/multi-step flows.
+
+## Auth in dev
+- `next dev` auto-logs you in as `DEMO_USER` (Dana Reyes, Kestrel Precision Machining) via `src/lib/auth/session.ts`. Never in prod.
+- **All auth checks go through `getSessionUser()` / `requireUser()` from `@/lib/auth/session`.** Never call `supabase.auth.getUser()` directly, or the bypass breaks.
+- Opt out: `--logged-out` (cookie `dev-auth=off`) or `DEV_AUTH_BYPASS=0` in `.env.local`.
+
+## Before calling UI work done
+- Check desktop AND `--mobile`, and compare against <frontend_style>.
+- `npm run check` (tsc + eslint).
+- Next.js 16: middleware is `src/proxy.ts`. Unsure about an API? Read `node_modules/next/dist/docs/`.
+- Fresh machine: `npm install && npx playwright install chromium`.
+</agent_workflow>

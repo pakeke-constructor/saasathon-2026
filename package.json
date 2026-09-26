@@ -4,9 +4,16 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
+        "dev:bg": "node scripts/dev-server.mjs start",
+        "dev:stop": "node scripts/dev-server.mjs stop",
+        "dev:status": "node scripts/dev-server.mjs status",
+        "dev:logs": "node scripts/dev-server.mjs logs",
+        "shot": "node scripts/shot.mjs",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint"
+        "lint": "eslint",
+        "typecheck": "tsc --noEmit",
+        "check": "tsc --noEmit && eslint"
     },
     "dependencies": {
         "@react-three/fiber": "^9.8.1",
@@ -18,6 +25,7 @@
         "next": "16.3.6",
         "react": "19.2.8",
         "react-dom": "19.2.8",
+        "server-only": "^0.0.1",
         "three": "^0.186.1"
     },
     "devDependencies": {
@@ -28,6 +36,7 @@
         "@types/react-dom": "^19",
         "eslint": "^9",
         "eslint-config-next": "16.3.6",
+        "playwright": "^1.63.0",
         "tailwindcss": "^4",
         "typescript": "^5"
     },
